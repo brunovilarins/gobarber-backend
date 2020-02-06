@@ -46,6 +46,10 @@ class AppointmentController {
 
     const { provider_id, date } = req.body;
 
+    if (provider_id === req.userId) {
+      return res.status(400).json({ error: 'Do not permited appointment.' });
+    }
+
     const isProvider = await User.findOne({
       where: { id: provider_id, provider: true },
     });
